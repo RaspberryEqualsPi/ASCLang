@@ -47,5 +47,11 @@
     <ClInclude Include="asctypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="asccfunc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ascheap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

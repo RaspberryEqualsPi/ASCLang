@@ -142,9 +142,11 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="asccfunc.h" />
     <ClInclude Include="asccomp.h" />
     <ClInclude Include="ascenums.h" />
     <ClInclude Include="ascfuncs.h" />
+    <ClInclude Include="ascheap.h" />
     <ClInclude Include="ascinterp.h" />
     <ClInclude Include="asclex.h" />
     <ClInclude Include="ascmain.h" />
