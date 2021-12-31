@@ -1,6 +1,8 @@
 #pragma once
 #include <thread>
 #include <vector>
+#include "ascheap.h"
+#include "ascfuncs.h"
 #include "asccfunc.h"
 #include "ascopcodes.h"
 #include "asctypedefs.h"
@@ -42,16 +44,25 @@ namespace ASCInterp {
 		}
 	private:
 		void runinternal() {
-			std::cout << "stack.size() = " << stack.size() << "\n";
 			while (stack.size() > 0) {
 				instruction currentinst = getstackind(0);
 				switch (currentinst.inst) {
 				case opcodes::CALL:
 					call(currentinst.operand, currentinst.val);
-					std::cout << "received call opcode\n";
 					break;
 				case opcodes::SET:
-
+					if (((signed int)ASCHeap::heap.size()) - 1 < (signed int)currentinst.operand) {
+						ASCHeap::heap.push_back(std::make_pair<byte, int>((byte)types::RAW, 0));
+					}
+					ASCHeap::heap[currentinst.operand].first = types::RAW;
+					ASCHeap::heap[currentinst.operand].second = currentinst.val;
+					break;
+				case opcodes::SETEND:
+					if (((signed int)ASCHeap::heap.size()) - 1 < (signed int)currentinst.operand) {
+						ASCHeap::heap.push_back(std::make_pair<byte, int>((byte)currentinst.val, 0));
+					}
+					ASCHeap::heap[currentinst.operand].first = (byte)currentinst.val;
+					ASCHeap::heap[currentinst.operand].second = 0;
 					break;
 				default:
 					std::cout << "[ERROR] Illegal instruction invoked.\n";
