@@ -16,16 +16,16 @@ byte* ui2b(unsigned int i) {
 	res[3] = b4;
 	return res;
 }
-void ph(std::vector<std::pair<byte, int>> heap) {
-	for (int i = 0; i < heap.size(); i++) {
-		std::cout << "first: " << (int)heap[i].first << ", second: " << (int)heap[i].second << "\n";
+void ph(std::map<int, std::pair<byte, int>> heap) {
+	for (auto const& [key, val] : heap) {
+		std::cout << "key: " << key << " first: " << (int)val.first << ", second: " << (int)val.second << "\n";
 	}
 }
 int main() {
 	uintptr_t funcaddr = (uintptr_t)print;
 	byte* funcad = ui2b(funcaddr);
 	byte* one = ui2b(1);
-	std::vector<byte> code = {opcodes::SET, 0, 0, 0, 0, one[0], one[1], one[2], one[3], opcodes::SETEND, one[0], one[1], one[2], one[3], one[0], one[1], one[2], one[3], opcodes::CALL, funcad[0], funcad[1], funcad[2], funcad[3], 0, 0, 0, 0 };
+	std::vector<byte> code = { opcodes::SET, 0, 0, 0, 0, one[0], one[1], one[2], one[3], opcodes::SETEND, one[0], one[1], one[2], one[3], one[0], one[1], one[2], one[3], opcodes::CALL, funcad[0], funcad[1], funcad[2], funcad[3], 0, 0, 0, 0 };
 	free(funcad);
 	free(one);
 	ASCInterp::interpreter inter(code);

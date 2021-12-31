@@ -16,7 +16,7 @@ namespace ASCInterp {
 			operand = operan;
 			val = va;
 		}
-		instruction(){}
+		instruction() {}
 	};
 	class interpreter {
 	public:
@@ -51,18 +51,28 @@ namespace ASCInterp {
 					call(currentinst.operand, currentinst.val);
 					break;
 				case opcodes::SET:
-					if (((signed int)ASCHeap::heap.size()) - 1 < (signed int)currentinst.operand) {
-						ASCHeap::heap.push_back(std::make_pair<byte, int>((byte)types::RAW, 0));
+					if (ASCHeap::heap.count(currentinst.operand) < 1) {
+						ASCHeap::heap.insert({ currentinst.operand, std::make_pair<byte, int>((byte)types::RAW, (int)currentinst.val) });
 					}
-					ASCHeap::heap[currentinst.operand].first = types::RAW;
-					ASCHeap::heap[currentinst.operand].second = currentinst.val;
+					else if (ASCHeap::heap.count(currentinst.operand) == 1) {
+						ASCHeap::heap[currentinst.operand].first = types::RAW;
+						ASCHeap::heap[currentinst.operand].second = currentinst.val;
+					}
+					else {
+						std::cout << "an unknown error occured at OPCODE::SET\n";
+					}
 					break;
 				case opcodes::SETEND:
-					if (((signed int)ASCHeap::heap.size()) - 1 < (signed int)currentinst.operand) {
-						ASCHeap::heap.push_back(std::make_pair<byte, int>((byte)currentinst.val, 0));
+					if (ASCHeap::heap.count(currentinst.operand) < 1) {
+						ASCHeap::heap.insert({ currentinst.operand, std::make_pair<byte, int>((byte)currentinst.val, 0) });
 					}
-					ASCHeap::heap[currentinst.operand].first = (byte)currentinst.val;
-					ASCHeap::heap[currentinst.operand].second = 0;
+					else if (ASCHeap::heap.count(currentinst.operand) == 1) {
+						ASCHeap::heap[currentinst.operand].first = (byte)currentinst.val;
+						ASCHeap::heap[currentinst.operand].second = 0;
+					}
+					else {
+						std::cout << "an unknown error occured at OPCODE::SETEND\n";
+					}
 					break;
 				default:
 					std::cout << "[ERROR] Illegal instruction invoked.\n";
