@@ -25,7 +25,8 @@ int main() {
 	uintptr_t funcaddr = (uintptr_t)print;
 	byte* funcad = ui2b(funcaddr);
 	byte* one = ui2b(1);
-	std::vector<byte> code = { opcodes::SET, 0, 0, 0, 0, one[0], one[1], one[2], one[3], opcodes::SETEND, one[0], one[1], one[2], one[3], one[0], one[1], one[2], one[3], opcodes::CALL, funcad[0], funcad[1], funcad[2], funcad[3], 0, 0, 0, 0 };
+	byte* two = ui2b(2);
+	std::vector<byte> code = { opcodes::SET, one[0], one[1], one[2], one[3], one[0], one[1], one[2], one[3], opcodes::SETEND, two[0], two[1], two[2], two[3], one[0], one[1], one[2], one[3], opcodes::CALL, funcad[0], funcad[1], funcad[2], funcad[3], one[0], one[1], one[2], one[3] };
 	free(funcad);
 	free(one);
 	ASCInterp::interpreter inter(code);
